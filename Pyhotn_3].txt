@@ -1,0 +1,47 @@
+import csv  # for CSV file storage
+import sqlite3  # for SQLite database storage
+from collections import defaultdict  # for efficient data organization
+# Add GUI library imports if applicable
+def add_expense():
+    amount = float(input("Enter expense amount: "))
+    date = input("Enter expense date (YYYY-MM-DD): ")
+    description = input("Enter expense description: ")
+    category = input("Enter expense category: ")
+    # Code to store expense data based on chosen method
+
+def view_expenses():
+    # Code to retrieve and display stored expense data
+def save_expenses_to_csv(expenses):
+    with open("expenses.csv", "w", newline="") as csvfile:
+        fieldnames = ["amount", "date", "description", "category"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(expenses)
+
+def load_expenses_from_csv():
+    with open("expenses.csv", "r") as csvfile:
+        reader = csv.DictReader(csvfile)
+        return list(reader)
+def connect_to_database():
+    conn = sqlite3.connect("expenses.db")
+    cursor = conn.cursor()
+    return conn, cursor
+
+def create_expenses_table(cursor):
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS expenses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            amount REAL,
+            date TEXT,
+            description TEXT,
+            category TEXT
+        )
+    """)
+
+def insert_expense(cursor, expense):
+    cursor.execute("""
+        INSERT INTO expenses (amount, date, description, category)
+        VALUES (?, ?, ?, ?)
+    """, (expense["amount"], expense["date"], expense["description"], expense["category"]))
+
+# ...similar functions for retrieving and updating data
