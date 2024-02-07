@@ -1,0 +1,37 @@
+import random
+import string
+
+def generate_password(length=12):
+    # Define character sets
+    uppercase_letters = string.ascii_uppercase
+    lowercase_letters = string.ascii_lowercase
+    digits = string.digits
+    special_characters = '!@#$%^&*()_+~-='
+
+    # Combine character sets
+    all_characters = uppercase_letters + lowercase_letters + digits + special_characters
+
+   
+    if length < 4 * len(all_characters):
+        raise ValueError("Password length is too short")
+
+    password = [random.choice(uppercase_letters),
+                random.choice(lowercase_letters),
+                random.choice(digits),
+                random.choice(special_characters)]
+
+
+    for _ in range(length - 4):
+        password.append(random.choice(all_characters))
+
+
+    random.shuffle(password)
+
+
+    generated_password = ''.join(password)
+
+    return generated_password
+
+
+password = generate_password(16)
+print("Generated Password:", password)
